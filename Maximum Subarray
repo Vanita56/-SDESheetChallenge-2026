@@ -1,0 +1,33 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        //Intuition
+        // time O(n) space O(1)
+        int n=nums.length,
+        curr_sum=nums[0], max_sum=nums[0];
+
+        for(int i=1;i<n;i++){
+            curr_sum=Math.max(nums[i], curr_sum+nums[i]);
+            max_sum=Math.max(curr_sum, max_sum);
+        }   
+       return max_sum;
+        
+    }
+}
+
+//dp solution
+class Solution {
+    public int maxSubArray(int[] nums) {
+        //DP
+        // time O(n) space O(n)
+        int n=nums.length;
+        int[] dp=new int[n];
+        dp[0]=nums[0];
+        int sum=nums[0];
+        for(int i=1;i<n;i++){
+        dp[i]= nums[i]+ (dp[i-1] >0 ? dp[i-1]: 0);
+        sum= Math.max(dp[i], sum);
+       }
+       return sum;
+        
+    }
+}
