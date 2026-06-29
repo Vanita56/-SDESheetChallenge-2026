@@ -1,0 +1,72 @@
+Check if an array represents a min heap
+
+class Solution {
+    // TC O(n/2) SC (1)
+    public boolean isHeap(int[] nums) {
+       int n=nums.length;
+       for(int i=n/2 -1 ;i>=0;i--){
+        int left=2*i+1;
+        int right=2*i+2;
+        if(left<n && nums[i]>nums[left]){ return false;}
+        else if(right <n && nums[i]>nums[2*i+2]){ return false;}
+       }
+        return true;
+    }
+}
+
+
+Kth largest/smallest element in an array
+
+import java.util.*;
+
+class Solution {
+    // Function to get the Kth largest element 
+    public int kthLargestElement(int[] nums, int k) {
+        
+        // Min-heap data structure
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        
+        // Add the first K elements in the Min-heap
+        for(int i = 0; i < k; i++) {
+            pq.add(nums[i]);
+        }
+        
+        // Process the rest of the elements 
+        for(int i = k; i < nums.length; i++) {
+            // Check if a new larger element is found
+            if(nums[i] > pq.peek()) {
+                
+                pq.poll(); // remove the smallest from the min-heap
+                
+                // Add the current element to the min-heap
+                pq.add(nums[i]);
+            }
+        }
+        
+        return pq.peek(); // Return the kth largest element 
+    }
+}
+
+// Driver code
+class Main {
+    public static void main(String[] args) {
+        int[] nums = {-5, 4, 1, 2, -3};
+        int k = 5;
+
+        // Creating an object of the Solution class
+        Solution sol = new Solution();
+
+        // Function call to get the Kth largest element 
+        int ans = sol.kthLargestElement(nums, k);
+
+        // Output array
+        System.out.println("The Kth largest element in the array is: " + ans);
+    }
+}
+
+Time Complexity: O(N*logK), where N is the size of given input array.
+Traversing the array takes O(N) time and for each element, in the worst case, we perform heap operations which take O(logK) time.
+Note that K can be equal to N in the worst case, making the worst-case time complexity as O(N*logN).
+
+Space Complexity: O(K), as a Min-heap data structure of size K is used to store the K largest elements.
+
